@@ -12,86 +12,29 @@
         md:divide-y-0 md:divide-x
       "
     >
+      <!-- from -->
       <org-select
         v-model="getCurrentContent"
         v-bind="{
           options: allContent,
-          label: 'Select',
+          label: 'From',
         }"
       />
+
+      <!-- select -->
+
       <org-select
         v-model="selected"
         v-bind="{
           options: getHeader,
-          label: 'From',
+          label: 'Select',
           multiple: true,
         }"
       />
-      <!-- <client-only>
-        <div class="px-4 py-5 sm:p-6">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700 uppercase"
-          >
-            Select
-          </label>
-          <v-select
-            v-model="getCurrentContent"
-            :options="allContent"
-            class="z-10"
-          />
-        </div>
-      </client-only> -->
-      <!-- <client-only>
-        <div class="px-4 py-5 sm:p-6">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700 uppercase"
-          >
-            From
-          </label>
-          <v-select
-            v-model="selected"
-            :options="getHeader"
-            :multiple="true"
-            class="z-10"
-          />
-        </div>
-      </client-only> -->
-      <!-- <client-only>
-        <div class="px-4 py-5 sm:p-6">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700 uppercase"
-          >
-            WHERE
-          </label>
-          <v-select v-model="selected" :options="getHeader" :multiple="true" />
-        </div>
-      </client-only>
-      <client-only>
-        <div class="px-4 py-5 sm:p-6">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700 uppercase"
-          >
-            ORDER BY
-          </label>
-          <v-select v-model="selected" :options="getHeader" :multiple="true" />
-        </div>
-      </client-only>
-      <client-only>
-        <div class="px-4 py-5 sm:p-6">
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700 uppercase"
-          >
-            Limit
-          </label>
-          <v-select v-model="selected" :options="getHeader" :multiple="true" />
-        </div>
-      </client-only> -->
     </div>
+
+    <!-- Table -->
+
     <div class="flex flex-col">
       <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -125,6 +68,7 @@
                       :items="getContent"
                       :column="item"
                       @isWhere="where = $event"
+                      @sortBy="sort = $event"
                     >
                       {{ item }}
                     </org-table-popover>
@@ -181,7 +125,8 @@ export default {
       ],
       currentContent: 'categories',
       selected: [],
-      where: []
+      where: [],
+      sort: []
     }
   },
   computed: {
@@ -198,8 +143,22 @@ export default {
         filtered = filtered.filter(
           item => item[this.where[0]] === this.where[1]
         )
+      }
 
-        console.log(filtered, 'content')
+      // sortBy
+      if (this.sort[0] && this.sort[1]) {
+        filtered.sort((a, b) => {
+          if (a[this.sort[0]] < b[this.sort[0]]) {
+            return -1
+          }
+          if (a[this.sort[0]] > b[this.sort[0]]) {
+            return 1
+          }
+          return 0
+        })
+        if (this.sort[1] === 'desc') {
+          filtered.reverse()
+        }
       }
       return filtered
     },
