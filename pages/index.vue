@@ -1,93 +1,100 @@
 <template>
-  <div class="m-20">
-    <div
-      class="
-        mb-5
-        grid grid-cols-1
-        rounded-lg
-        bg-gray-50
-        shadow
-        divide-y divide-gray-200
-        md:grid-cols-5
-        md:divide-y-0 md:divide-x
-      "
-    >
-      <!-- from -->
-      <org-select
-        v-model="getCurrentContent"
-        v-bind="{
-          options: allContent,
-          label: 'From',
-        }"
-      />
+  <client-only>
+    <div class="m-20">
+      <div
+        class="
+          mb-5
+          grid grid-cols-1
+          rounded-lg
+          bg-gray-50
+          shadow
+          divide-y divide-gray-200
+          md:grid-cols-5
+          md:divide-y-0 md:divide-x
+        "
+      >
+        <!-- from -->
+        <org-select
+          v-model="getCurrentContent"
+          v-bind="{
+            options: allContent,
+            label: 'From',
+          }"
+        />
 
-      <!-- select -->
+        <!-- select -->
 
-      <org-select
-        v-model="selected"
-        v-bind="{
-          options: getHeader,
-          label: 'Select',
-          multiple: true,
-        }"
-      />
-    </div>
+        <org-select
+          v-model="selected"
+          v-bind="{
+            options: getHeader,
+            label: 'Select',
+            multiple: true,
+          }"
+        />
+      </div>
 
-    <!-- Table -->
+      <!-- Table -->
 
-    <div class="flex flex-col">
-      <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="flex flex-col">
+        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div
-            class="
-              shadow
-              overflow-hidden
-              border-b border-gray-200
-              sm:rounded-lg
-            "
+            class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
           >
-            <table class="min-w-full divide-y divide-gray-200">
-              <caption class="hidden" />
-              <thead class="bg-gray-50">
-                <tr>
-                  <th
-                    v-for="(item, index) in filteredHeader"
-                    :key="index"
-                    scope="col"
-                    class="
-                      px-6
-                      py-3
-                      text-left text-xs
-                      font-medium
-                      text-gray-500
-                      uppercase
-                      tracking-wider
-                    "
-                  >
-                    <org-table-popover
-                      :items="getContent"
-                      :column="item"
-                      @isWhere="where = $event"
-                      @sortBy="sort = $event"
+            <div
+              class="
+                shadow
+                overflow-hidden
+                border-b border-gray-200
+                sm:rounded-lg
+              "
+            >
+              <table class="min-w-full divide-y divide-gray-200">
+                <caption class="hidden" />
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th
+                      v-for="(item, index) in filteredHeader"
+                      :key="index"
+                      scope="col"
+                      class="
+                        px-6
+                        py-3
+                        text-left text-xs
+                        font-medium
+                        text-gray-500
+                        uppercase
+                        tracking-wider
+                      "
                     >
-                      {{ item }}
-                    </org-table-popover>
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="bg-white divide-y divide-gray-200">
-                <tr v-for="(item, index) in getFilteredContent" :key="index">
-                  <td v-for="(header, index2) in filteredHeader" :key="index2">
-                    {{ item[header] }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                      <org-table-popover
+                        :items="getContent"
+                        :column="item"
+                        @isWhere="where = $event"
+                        @sortBy="sort = $event"
+                      >
+                        {{ item }}
+                      </org-table-popover>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  <tr v-for="(item, index) in getFilteredContent" :key="index">
+                    <td
+                      v-for="(header, index2) in filteredHeader"
+                      :key="index2"
+                    >
+                      {{ item[header] }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </client-only>
 </template>
 
 <script>
