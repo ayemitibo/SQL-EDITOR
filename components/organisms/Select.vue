@@ -1,11 +1,5 @@
 <template>
   <div class="px-4 py-5 sm:p-6" v-on="$listeners">
-    <label
-      htmlFor="email"
-      className="block text-sm font-medium text-gray-700 uppercase"
-    >
-      {{ label }}
-    </label>
     <v-select
       class="z-10"
       v-bind="{
@@ -26,10 +20,6 @@ export default {
     },
     value: {
       type: [String, Array],
-      required: true
-    },
-    label: {
-      type: String,
       required: true
     },
     multiple: {

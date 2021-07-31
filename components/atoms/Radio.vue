@@ -13,7 +13,7 @@
     </div>
     <label
       :for="`radio-${item}-${id}`"
-      class="text-sm leading-tight truncate whitespace-no-wrap cursor-pointer"
+      class="text-sm leading-tight cursor-pointer break-all w-64 truncate"
     >
       {{ item }}</label>
   </div>
@@ -37,6 +37,7 @@ export default {
   },
   methods: {
     updateChecked (e) {
+      this.$emit('input', e.target.value)
       this.$emit('update:modelValue', e.target.value)
     }
   }

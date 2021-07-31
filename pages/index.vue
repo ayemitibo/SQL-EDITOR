@@ -1,100 +1,136 @@
 <template>
-  <client-only>
-    <div class="m-20">
-      <div
-        class="
-          mb-5
-          grid grid-cols-1
-          rounded-lg
-          bg-gray-50
-          shadow
-          divide-y divide-gray-200
-          md:grid-cols-5
-          md:divide-y-0 md:divide-x
-        "
-      >
-        <!-- from -->
-        <org-select
-          v-model="getCurrentContent"
-          v-bind="{
-            options: allContent,
-            label: 'From',
-          }"
-        />
+  <div class="m-20">
+    <div
+      class="
+        mb-5
+        grid grid-cols-1
+        rounded-lg
+        bg-gray-50
+        shadow
+        divide-y divide-gray-200
+        md:grid-cols-5
+        md:divide-y-0 md:divide-x
+      "
+    >
+      <!-- from -->
 
-        <!-- select -->
+      <org-title>
+        <template #default>
+          FROM
+        </template>
+        <template #select>
+          <org-select
+            v-model="getCurrentContent"
+            v-bind="{
+              options: allContent,
+            }"
+          />
+        </template>
+      </org-title>
 
-        <org-select
-          v-model="selected"
-          v-bind="{
-            options: getHeader,
-            label: 'Select',
-            multiple: true,
-          }"
-        />
-      </div>
+      <!-- select -->
 
-      <!-- Table -->
+      <org-title>
+        <template #default>
+          SELECT
+        </template>
+        <template #select>
+          <org-select
+            v-model="selected"
+            v-bind="{
+              options: getHeader,
+              label: 'Select',
+              multiple: true,
+            }"
+          />
+        </template>
+      </org-title>
 
-      <div class="flex flex-col">
-        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <org-title>
+        WHERE
+        <template #description>
+          <p>Click on each table header to see</p>
+        </template>
+      </org-title>
+
+      <org-title>
+        SORT
+        <template #description>
+          <p>Click on each table header to see</p>
+        </template>
+      </org-title>
+    </div>
+
+    <!-- Table -->
+    <div class="flex flex-col">
+      <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
           <div
-            class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8"
+            class="
+              shadow
+              overflow-hidden
+              border-b border-gray-200
+              sm:rounded-lg
+            "
           >
-            <div
-              class="
-                shadow
-                overflow-hidden
-                border-b border-gray-200
-                sm:rounded-lg
-              "
-            >
-              <table class="min-w-full divide-y divide-gray-200">
-                <caption class="hidden" />
-                <thead class="bg-gray-50">
-                  <tr>
-                    <th
-                      v-for="(item, index) in filteredHeader"
-                      :key="index"
-                      scope="col"
-                      class="
-                        px-6
-                        py-3
-                        text-left text-xs
-                        font-medium
-                        text-gray-500
-                        uppercase
-                        tracking-wider
-                      "
+            <table class="w-full divide-y divide-gray-200 table-fixed">
+              <caption class="hidden" />
+              <thead class="bg-gray-50">
+                <tr>
+                  <th
+                    v-for="(item, index) in filteredHeader"
+                    :key="index"
+                    scope="col"
+                    class="
+                      px-6
+                      py-3
+                      text-left text-xs
+                      font-medium
+                      text-gray-500
+                      uppercase
+                      tracking-wider
+                      text-left
+                      cursor-pointer
+                    "
+                  >
+                    <org-table-popover
+                      :items="getContent"
+                      :column="item"
+                      @isWhere="where = $event"
+                      @sortBy="sort = $event"
                     >
-                      <org-table-popover
-                        :items="getContent"
-                        :column="item"
-                        @isWhere="where = $event"
-                        @sortBy="sort = $event"
-                      >
-                        {{ item }}
-                      </org-table-popover>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                  <tr v-for="(item, index) in getFilteredContent" :key="index">
-                    <td
-                      v-for="(header, index2) in filteredHeader"
-                      :key="index2"
-                    >
-                      {{ item[header] }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                      {{ item }}
+                    </org-table-popover>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr v-for="(item, index) in getFilteredContent" :key="index">
+                  <td
+                    v-for="(header, index2) in filteredHeader"
+                    :key="index2"
+                    class="
+                      text-left
+                      whitespace-nowrap
+                      text-sm
+                      font-medium
+                      text-gray-900
+                      px-6
+                      py-4
+                      break-all
+                      whitespace-pre-wrap
+                    "
+                  >
+                    <span>{{ item[header] }}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
     </div>
-  </client-only>
+  </div>
 </template>
 
 <script>
@@ -138,8 +174,7 @@ export default {
   },
   computed: {
     getContent () {
-      const content = this.allContentFetched[this.getCurrentContent]?.body
-      return content
+      return this.allContentFetched[this.getCurrentContent]?.body
     },
     getFilteredContent () {
       const content = this.getContent
@@ -179,10 +214,10 @@ export default {
     },
     getHeader: {
       get () {
-        const items =
+        return (
           this.allContentFetched[this.getCurrentContent]?.body[0] &&
           Object.keys(this.allContentFetched[this.getCurrentContent]?.body[0])
-        return items
+        )
       }
     },
     getCurrentContent: {

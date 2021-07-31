@@ -4,32 +4,87 @@
       <slot />
     </template>
     <template #default="{ hide }">
-      <div class="w-[300px] px-4 py-4 bg-white rounded-sm">
-        <h2 class="text-center text-black font-bold capitalize">
+      <div class="w-[300px] px-4 py-4 bg-white rounded-sm shadow">
+        <!-- <h2 class="text-center text-black font-bold capitalize">
           <slot />
-        </h2>
-
-        <div
-          class="
-            flex flex-col
-            items-start
-            text-findox-blue
-            space-y-3
-            mt-5
-            pb-5
-            border-b
-          "
-        >
-          <button @click="sort('asc')">
-            Sort A to Z
+        </h2> -->
+        <p class="text-base text-gray-600 mb-1">
+          sort
+        </p>
+        <div class="flex items-start text-findox-blue mt-0 pb-5 border-b">
+          <button
+            class="
+              text-sm
+              flex
+              items-center
+              bg-gray-50
+              hover:bg-gray-200
+              mr-2
+              p-2
+              bg-transparent
+              hover:text-gray-900
+              rounded
+              transition
+              duration-150
+              ease-in-out
+            "
+            @click="sort('asc')"
+          >
+            <span class="mr-1">Sort A to Z</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M16 17l-4 4m0 0l-4-4m4 4V3"
+              />
+            </svg>
           </button>
-          <button @click="sort('desc')">
-            Sort Z to A
+          <button
+            class="
+              text-sm
+              flex
+              items-center
+              bg-gray-50
+              hover:bg-gray-200
+              p-2
+              bg-transparent
+              hover:text-gray-900
+              rounded
+              transition
+              duration-150
+              ease-in-out
+            "
+            @click="sort('desc')"
+          >
+            <span class="mr-1">Sort Z to A</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 7l4-4m0 0l4 4m-4-4v18"
+              />
+            </svg>
           </button>
         </div>
 
         <form class="mt-3" @submit.prevent>
-          <p>WHERE {{ column }}</p>
+          <p class="text-base text-gray-600 text-xs text-center pb-2">
+            Where {{ column }} === {{ checked || "All" }}
+          </p>
           <div>
             <!-- <input
             v-model="filterText"
@@ -48,12 +103,13 @@
               v-for="(val, index) in getColumn"
               :id="index"
               :key="index"
+              v-model="checked"
               :item="val"
               @update:modelValue="checkRadio"
             />
             <!-- <button @click="$emit('isWhere', [])">clear</button> -->
           </div>
-          <button @click="hide">
+          <button class="mt-2" @click="hide">
             Close
           </button>
 
