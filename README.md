@@ -11,6 +11,6 @@ Light house report on Google chrome
 ![Light house Best Practice](https://res.cloudinary.com/dhootdh4f/image/upload/v1627685080/Screenshot_2021-07-30_at_23.37.45_kbvur7.png)
 
 
-1. Added SSR(server side rendering) for optimizatiomn
+1. Added SSR(server side rendering) for optimization
 2. feched content based on the user request to reduce load time
 
