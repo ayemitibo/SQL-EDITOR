@@ -84,7 +84,7 @@ export default {
         return raw
       }
 
-      const $div = document.createElement('div')
+      const $div = process.client && document.createElement('div')
       $div.innerHTML = raw
 
       const $raw = $div.firstElementChild

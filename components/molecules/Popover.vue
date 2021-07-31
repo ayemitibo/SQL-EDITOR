@@ -10,7 +10,13 @@
     <slot name="activator" :active="shown" :show="() => show()" />
 
     <transition name="fade">
-      <div v-show="shown" ref="body" class="popover-body" @click="onBodyClick">
+      <div
+        v-show="shown"
+        ref="body"
+        v-click-away="shown ? hide : false"
+        class="popover-body"
+        @click="onBodyClick"
+      >
         <slot v-if="shown" :active="shown" :hide="hide" />
       </div>
     </transition>
@@ -153,6 +159,7 @@ export default {
 
     onBodyClick (e) {
       e.stopPropagation()
+      //   }
     }
   }
 }

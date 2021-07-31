@@ -25,12 +25,12 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/vue-select.js', mode: 'client' }
+    { src: '~/plugins/vue-select.js', mode: 'client' },
+    { src: '~plugins/directive-click-away', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: [
-    { path: '~/components', pathPrefix: false, prefix: 'base', extensions: ['vue'] },
     { path: '~/components/atoms', pathPrefix: false, prefix: 'atom', extensions: ['vue'] },
     { path: '~/components/organisms', pathPrefix: false, prefix: 'org', extensions: ['vue'] },
     { path: '~/components/molecules', pathPrefix: false, prefix: 'mol', extensions: ['vue'] }
