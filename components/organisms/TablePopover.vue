@@ -9,7 +9,7 @@
           <slot />
         </h2> -->
         <p class="text-base text-gray-600 mb-1">
-          sort
+          ORDER BY
         </p>
         <div class="flex items-start text-findox-blue mt-0 pb-5 border-b">
           <button
@@ -30,7 +30,7 @@
             "
             @click="sort('asc')"
           >
-            <span class="mr-1">Sort A to Z</span>
+            <span class="mr-1">ASC</span>
             <atom-icon name="asc" />
           </button>
           <button
@@ -50,14 +50,22 @@
             "
             @click="sort('desc')"
           >
-            <span class="mr-1">Sort Z to A</span>
+            <span class="mr-1">DESC</span>
             <atom-icon name="desc" />
           </button>
         </div>
 
         <form class="mt-3" @submit.prevent>
-          <p class="text-base text-gray-600 text-xs text-center pb-2">
-            Where {{ column }} === {{ checked || "All" }}
+          <p
+            class="
+              text-base text-gray-600 text-xs text-center
+              pb-2
+              break-all
+              w-64
+              truncate
+            "
+          >
+            WHERE {{ column }} IN {{ checked }}
           </p>
           <div>
             <!-- <input
@@ -68,24 +76,26 @@
           /> -->
           </div>
           <div class="flex flex-col pb-8 border-b max-h-80 overflow-auto">
-            <atom-radio
-              :id="'all'"
-              :item="'All'"
-              @update:modelValue="() => checkRadio('all')"
-            />
-            <atom-radio
+            <atom-checkbox
               v-for="(val, index) in getColumn"
               :id="index"
               :key="index"
               v-model="checked"
               :item="val"
-              @update:modelValue="checkRadio"
             />
             <!-- <button @click="$emit('isWhere', [])">clear</button> -->
           </div>
-          <button class="mt-2" @click="hide">
-            Close
-          </button>
+          <div class="flex justify-between mt-2">
+            <button
+              class="bg-yellow-500 text-white text-xs p-3"
+              @click="checked = []"
+            >
+              CLEAR
+            </button>
+            <button class="bg-red-500 text-white text-xs p-3" @click="hide">
+              CLOSE
+            </button>
+          </div>
 
           <!-- <div class="flex justify-between mt-3">
           <Button
@@ -115,7 +125,7 @@ export default {
   },
   data () {
     return {
-      checked: ''
+      checked: []
     }
   },
   computed: {
@@ -131,12 +141,20 @@ export default {
       return Array.from(columnValuesSet)
     }
   },
+  watch: {
+    checked: {
+      handler (val) {
+        this.$emit('isWhere', [this.column, val])
+      },
+      deep: true
+    }
+  },
   methods: {
     sort (value) {
       this.$emit('sortBy', [this.column, value])
+      this.hidePopover()
     },
-    checkRadio (value) {
-      this.$emit('isWhere', value !== 'all' ? [this.column, value] : [])
+    hidePopover () {
       this.$refs.popover?.hide?.()
     }
   }

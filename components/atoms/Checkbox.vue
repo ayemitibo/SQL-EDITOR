@@ -2,17 +2,17 @@
   <div class="flex items-center px-4 py-2 font-light">
     <div class="mr-2 radio">
       <input
-        :id="`radio-${item}-${id}`"
+        :id="`checkbox-${item}-${id}`"
+        v-model="checked"
         :value="item"
-        name="radio"
-        type="radio"
-        class="radio__input"
+        name="checkbox"
+        type="checkbox"
         @change="updateChecked"
       >
-      <span class="radio__icon" />
+      <span class="checkbox__icon" />
     </div>
     <label
-      :for="`radio-${item}-${id}`"
+      :for="`checkbox-${item}-${id}`"
       class="text-sm leading-tight cursor-pointer break-all w-64 truncate"
     >
       {{ item }}</label>
@@ -29,23 +29,36 @@ export default {
     item: {
       required: true,
       type: String
+    },
+    value: {
+      required: true
     }
-    // checked: {
-    //   required: true,
-    //   type: Boolean,
-    // },
+  },
+  data () {
+    return {
+      checkedProxy: false
+    }
+  },
+  computed: {
+    checked: {
+      get () {
+        return this.value
+      },
+      set (val) {
+        this.checkedProxy = val
+      }
+    }
   },
   methods: {
     updateChecked (e) {
-      this.$emit('input', e.target.value)
-      this.$emit('update:modelValue', e.target.value)
+      this.$emit('input', this.checkedProxy)
     }
   }
 }
 </script>
 
 <style lang="postcss" scoped>
-.radio {
+.checkbox {
   flex: 0 0 18px;
   width: 18px;
   height: 18px;

@@ -175,10 +175,13 @@ export default {
       let filtered = content
       // where
       const isWhere = this.where && this.where.length
+      const [column, searchedValues] = this.where
       if (isWhere) {
-        filtered = filtered.filter(
-          item => item[this.where[0]] === this.where[1]
-        )
+        if (searchedValues.length) {
+          filtered = filtered.filter(item =>
+            searchedValues.includes(item[column])
+          )
+        }
       }
 
       // sortBy
