@@ -2,7 +2,7 @@
   <div>
     <label
       htmlFor="email"
-      className="block text-sm font-medium text-gray-700 uppercase"
+      class="block text-sm font-medium text-gray-700 uppercase ml-5 mt-2"
     >
       <slot />
     </label>
