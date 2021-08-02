@@ -133,16 +133,6 @@ export default {
     return {
       allContentFetched: {
         categories: await $content('categories').fetch()
-        // customers: await $content('customers').fetch(),
-        // employerTerritories: await $content('employee_territories').fetch(),
-        // employees: await $content('employees').fetch(),
-        // orderDetails: await $content('order_details').fetch(),
-        // orders: await $content('orders').fetch(),
-        // products: await $content('products').fetch(),
-        // regions: await $content('regions').fetch(),
-        // shippers: await $content('shippers').fetch(),
-        // suppliers: await $content('suppliers').fetch(),
-        // territories: await $content('territories').fetch()
       }
     }
   },
