@@ -111,7 +111,6 @@
                         px-6
                         py-4
                         break-all
-                        whitespace-pre-wrap
                       "
                     >
                       <span>{{ item[header] }}</span>
