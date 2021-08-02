@@ -111,6 +111,7 @@
                         px-6
                         py-4
                         break-all
+                        truncate
                       "
                     >
                       <span>{{ item[header] }}</span>
